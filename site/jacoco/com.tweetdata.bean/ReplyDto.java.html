@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReplyDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tweetdata</a> &gt; <a href="index.source.html" class="el_package">com.tweetdata.bean</a> &gt; <span class="el_source">ReplyDto.java</span></div><h1>ReplyDto.java</h1><pre class="source lang-java linenums">package com.tweetdata.bean;
+
+import javax.validation.constraints.Size;
+
+<span class="fc" id="L5">public class ReplyDto {</span>
+	private int id;
+	private String username;
+	private String email;
+	
+	@Size(min = 1, max = 150, message = &quot;The tweet description must be between {min} and {max} characters long&quot;)
+	private String reply;
+	private String date;
+	public int getId() {
+<span class="fc" id="L14">		return id;</span>
+	}
+	public void setId(int id) {
+<span class="fc" id="L17">		this.id = id;</span>
+<span class="fc" id="L18">	}</span>
+	public String getUsername() {
+<span class="fc" id="L20">		return username;</span>
+	}
+	public void setUsername(String username) {
+<span class="fc" id="L23">		this.username = username;</span>
+<span class="fc" id="L24">	}</span>
+	public String getEmail() {
+<span class="fc" id="L26">		return email;</span>
+	}
+	public void setEmail(String email) {
+<span class="fc" id="L29">		this.email = email;</span>
+<span class="fc" id="L30">	}</span>
+	public String getReply() {
+<span class="fc" id="L32">		return reply;</span>
+	}
+	public void setReply(String reply) {
+<span class="fc" id="L35">		this.reply = reply;</span>
+<span class="fc" id="L36">	}</span>
+	public String getDate() {
+<span class="fc" id="L38">		return date;</span>
+	}
+	public void setDate(String date) {
+<span class="fc" id="L41">		this.date = date;</span>
+<span class="fc" id="L42">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

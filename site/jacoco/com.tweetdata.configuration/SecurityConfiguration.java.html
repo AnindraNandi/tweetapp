@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tweetdata</a> &gt; <a href="index.source.html" class="el_package">com.tweetdata.configuration</a> &gt; <span class="el_source">SecurityConfiguration.java</span></div><h1>SecurityConfiguration.java</h1><pre class="source lang-java linenums">package com.tweetdata.configuration;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.tweetdata.filter.JwtFilter;
+import com.tweetdata.repository.LoginRepository;
+import com.tweetdata.service.LoginService;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+//import com.tweetdata.service.UserService;
+
+@Configuration
+@EnableWebSecurity
+@EnableAutoConfiguration
+@EnableSwagger2
+<span class="fc" id="L30">public class SecurityConfiguration extends WebSecurityConfigurerAdapter{</span>
+
+  //  @Autowired
+    //private UserService userService;
+@Autowired
+private LoginService loginService;
+   
+    @Autowired
+    private LoginRepository repository;
+
+    @Autowired
+    private JwtFilter jwtFilter;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    	
+    	
+    	//auth.inMemoryAuthentication().withUser(login.getEmail()).password(login.getPassword()).roles(&quot;USER&quot;);
+
+<span class="fc" id="L49">        auth.userDetailsService(loginService);</span>
+<span class="fc" id="L50">    }</span>
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+<span class="fc" id="L55">        return super.authenticationManagerBean();</span>
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+    //	 web.ignoring().antMatchers(&quot;/v2/api-docs&quot;, &quot;/configuration/ui&quot;,
+		//  &quot;/swagger-resources/**&quot;, &quot;/configuration/security&quot;, &quot;/swagger-ui.html&quot;,
+		//  &quot;/webjars/**&quot;);
+		 
+<span class="fc" id="L64">        http.csrf()</span>
+<span class="fc" id="L65">                .disable()</span>
+<span class="fc" id="L66">                .authorizeRequests()</span>
+<span class="fc" id="L67">                .antMatchers(&quot;/v2/api-docs&quot;, &quot;/configuration/ui&quot;,  &quot;/v3/api-docs/**&quot;,</span>
+                		&quot;https://cros-everywhere.herokuapp.com/http://tweetapp-env.eba-au9yqf7p.ap-northeast-1.elasticbeanstalk.com/api/v1.0/tweets/register&quot;,
+                		&quot;https://cros-everywhere.herokuapp.com/http://tweetapp-env.eba-au9yqf7p.ap-northeast-1.elasticbeanstalk.com/api/v1.0/tweets/login&quot;,
+                		&quot;http://tweetapp-env.eba-au9yqf7p.ap-northeast-1.elasticbeanstalk.com&quot;,
+                		&quot;/api/v1.0/tweets/{email}/reply3/{id}&quot;,&quot;/api/v1.0/tweets/users/all&quot;,
+                		&quot;/api/v1.0/tweets/{email}/like/{id}&quot;,&quot;/api/v1.0/tweets/{email}/reply/{id}&quot;,
+                		&quot;/api/v1.0/tweets/{email}/update/{id}&quot;,&quot;/api/v1.0/tweets/{email}/delete/{id}&quot;,
+                		&quot;/api/v1.0/tweets/usersall&quot;,&quot;/api/v1.0/tweets/user/search/{username}&quot;,&quot;/api/v1.0/tweets/{email}&quot;,
+                        &quot;/swagger-ui/**&quot;,&quot;/api/v1.0/tweets/{email}/add&quot;,&quot;/api/v1.0/tweets/login2&quot;,&quot;/api/v1.0/tweets/all&quot;,&quot;/api/v1.0/tweets/{email}/forgot&quot;,&quot;/api/v1.0/tweets/updateUser&quot;,
+              		  &quot;/swagger-resources/**&quot;, &quot;/configuration/security&quot;, &quot;/swagger-ui.html&quot;,&quot;/api/v1.0/tweets/register&quot;,&quot;/api/v1.0/tweets/login&quot;,&quot;/api/v1.0/tweets/authenticate&quot;)
+<span class="fc" id="L77">                .permitAll()</span>
+<span class="fc" id="L78">                .anyRequest()</span>
+<span class="fc" id="L79">                .authenticated()</span>
+<span class="fc" id="L80">                .and()</span>
+<span class="fc" id="L81">                .sessionManagement()</span>
+               
+<span class="fc" id="L83">                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);</span>
+<span class="fc" id="L84">        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);</span>
+
+<span class="fc" id="L86">    }</span>
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

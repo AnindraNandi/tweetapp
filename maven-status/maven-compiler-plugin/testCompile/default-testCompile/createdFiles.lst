@@ -1,0 +1,7 @@
+com\tweetdata\service\TweetServiceTest.class
+com\tweetdata\TweetControllerTest.class
+com\tweetdata\LoginControllerTest.class
+com\tweetdata\service\LoginServiceTest.class
+com\tweetdata\dto\DtoTest.class
+com\tweetdata\entity\PojoTest.class
+com\tweetdata\TweetdataApplicationTests.class

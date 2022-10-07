@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpringFoxConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tweetdata</a> &gt; <a href="index.source.html" class="el_package">com.tweetdata.configuration</a> &gt; <span class="el_source">SpringFoxConfig.java</span></div><h1>SpringFoxConfig.java</h1><pre class="source lang-java linenums">package com.tweetdata.configuration;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.Contact;
+import springfox.documentation.service.SecurityReference;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.Docket;
+
+@Configuration
+<span class="fc" id="L23">public class SpringFoxConfig {    </span>
+	  private ApiKey apiKey() { 
+<span class="fc" id="L25">	        return new ApiKey(&quot;JWT&quot;, &quot;Authorization&quot;, &quot;header&quot;); </span>
+	    }
+	    private List&lt;SecurityContext&gt; securityContexts() { 
+<span class="fc" id="L28">	        return Arrays.asList(SecurityContext.builder().securityReferences(defaultAuth()).build()); </span>
+	    } 
+
+	    private List&lt;SecurityReference&gt; defaultAuth() { 
+<span class="fc" id="L32">	        AuthorizationScope scope = new AuthorizationScope(&quot;global&quot;, &quot;accessEverything&quot;); </span>
+	      //  AuthorizationScope[] authorizationScopes = new AuthorizationScope[1]; 
+	        //authorizationScopes[0] = authorizationScope; 
+<span class="fc" id="L35">	        return Arrays.asList(new SecurityReference(&quot;JWT&quot;, new  AuthorizationScope[] {scope})); </span>
+	    }
+	    
+	    private ApiInfo apiInfo() {
+<span class="fc" id="L39">	        return new ApiInfo(</span>
+	          &quot;My REST API&quot;,
+	          &quot;Some custom description of API.&quot;,
+	          &quot;1.0&quot;,
+	          &quot;Terms of service&quot;,
+	          new Contact(&quot;Sallo Szrajbman&quot;, &quot;www.baeldung.com&quot;, &quot;salloszraj@gmail.com&quot;),
+	          &quot;License of API&quot;,
+	          &quot;API license URL&quot;,
+<span class="fc" id="L47">	          Collections.emptyList());</span>
+	    }
+    @Bean
+    public Docket api() { 
+<span class="fc" id="L51">        return new Docket(DocumentationType.SWAGGER_2)  </span>
+<span class="fc" id="L52">        		 .apiInfo(apiInfo())</span>
+<span class="fc" id="L53">        	      .securityContexts(securityContexts())</span>
+<span class="fc" id="L54">        	      .securitySchemes(Arrays.asList(apiKey()))</span>
+<span class="fc" id="L55">          .select()                                  </span>
+<span class="fc" id="L56">          .apis(RequestHandlerSelectors.any())              </span>
+<span class="fc" id="L57">          .paths(PathSelectors.any())                          </span>
+<span class="fc" id="L58">          .build();                                           </span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
